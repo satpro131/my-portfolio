@@ -9,12 +9,15 @@ Ready. Type your query or choose a shortcut command below.`;
 
 const COMMAND_RESPONSES = {
   '/help': `Available commands:
-  /projects   - Learn about systems Satya built (MPL, Knox, Xamine)
-  /experience - View Satya's work history timeline
-  /skills     - Output technical stack and core competencies
-  /knox       - Detailed security engineering at Samsung Knox
-  /xamine     - Detailed founder overview of Xamine.ai EdTech
-  /clear      - Clear terminal logs`,
+  /projects     - Learn about systems Satya built (MPL, Knox, Xamine)
+  /experience   - View Satya's work history timeline
+  /skills       - Output technical stack and core competencies
+  /education    - View academic qualifications and university details
+  /certs        - View professional certifications
+  /publications - View research work and publication records
+  /knox         - Detailed security engineering at Samsung Knox
+  /xamine       - Detailed founder overview of Xamine.ai EdTech
+  /clear        - Clear terminal logs`,
   '/projects': `PROJECT OVERVIEW:
 1. Xamine.ai & Kaksha: Personalised AI Learning Platforms built from scratch using React, Next.js, and TypeScript, featuring real-time biometric student behavior tracking.
 2. MPL Desktop Poker client: High-performance multi-window Electron + Next.js desktop client with GPU offloading and WebSocket synchronization.
@@ -31,6 +34,17 @@ Languages: TypeScript (Expert), JavaScript (ES2023+), HTML5, CSS3, C/C++
 Frameworks: React.js, Next.js (SSR/SSG), Electron, Node.js
 State Management: Redux / RTK Query, React Query (TanStack)
 Security: Knox SDP, Dual DAR (fscrypt / Keymaster), SELinux Policies`,
+  '/education': `EDUCATION:
+- B.Tech in Computer Science and Engineering
+  IIT (BHU) Varanasi (2013 - 2017)
+  Focus areas: Algorithms, systems engineering, cryptography, and network security.`,
+  '/certs': `CERTIFICATIONS:
+1. Samsung Advanced Cryptography Certification (Samsung R&D Institute, 2019)
+2. Certified Secure Software Lifecycle Professional (CSSLP) Prep (Samsung Security Center, 2021)`,
+  '/publications': `PUBLICATIONS:
+- "Securing File System-level Cryptography in Enterprise Android Devices"
+  Samsung Technical Conference & R&D Journal (2020)
+  Overview: Discussed the integration of SDP (Sensitive Data Protection) with fscrypt drivers and hardware-backed Keymaster layers.`,
   '/knox': `SAMSUNG KNOX SECURITY:
 Lead Engineer. Shipped Secure Folder file-system level encryption (SDP) and Dual Data-at-Rest (Dual DAR) cryptographic drivers (fscrypt) across all flagship devices, securing over 500,000 enterprise and government deployments globally.`,
   '/xamine': `XAMINE.AI & KAKSHA:
@@ -86,6 +100,12 @@ export default function AIAgentPage() {
           responseText = COMMAND_RESPONSES['/experience'];
         } else if (cleanCmd.includes('skill') || cleanCmd.includes('tech') || cleanCmd.includes('code') || cleanCmd.includes('stack')) {
           responseText = COMMAND_RESPONSES['/skills'];
+        } else if (cleanCmd.includes('education') || cleanCmd.includes('degree') || cleanCmd.includes('college') || cleanCmd.includes('university') || cleanCmd.includes('iit') || cleanCmd.includes('bhu')) {
+          responseText = COMMAND_RESPONSES['/education'];
+        } else if (cleanCmd.includes('cert') || cleanCmd.includes('credentials')) {
+          responseText = COMMAND_RESPONSES['/certs'];
+        } else if (cleanCmd.includes('publication') || cleanCmd.includes('paper') || cleanCmd.includes('journal') || cleanCmd.includes('write')) {
+          responseText = COMMAND_RESPONSES['/publications'];
         } else if (cleanCmd.includes('knox') || cleanCmd.includes('samsung') || cleanCmd.includes('security')) {
           responseText = COMMAND_RESPONSES['/knox'];
         } else if (cleanCmd.includes('xamine') || cleanCmd.includes('kaksha') || cleanCmd.includes('ai')) {
@@ -158,11 +178,14 @@ export default function AIAgentPage() {
               <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/skills')}>
                 /skills
               </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/knox')}>
-                /knox
+              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/education')}>
+                /education
               </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/xamine')}>
-                /xamine
+              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/certs')}>
+                /certs
+              </button>
+              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/publications')}>
+                /publications
               </button>
             </div>
           </div>
@@ -185,6 +208,8 @@ export default function AIAgentPage() {
               <div key={idx} className="terminal-log-row">
                 {log.type === 'user' ? (
                   <span className="terminal-user-input">{log.text}</span>
+                ) : log.type === 'system' ? (
+                  <span className="terminal-system-output">{log.text}</span>
                 ) : (
                   <span className="terminal-ai-output">{log.text}</span>
                 )}

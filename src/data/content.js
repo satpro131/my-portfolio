@@ -112,4 +112,43 @@ export const siteData = {
     { label: 'Phone', value: '+91 7754941918', href: 'tel:+917754941918', icon: 'phone' },
     { label: 'Resume', value: 'Download PDF', href: '/Satya_Prakash_Resume.pdf', icon: 'file' },
   ],
+
+  education: [
+    {
+      degree: 'B.Tech in Computer Science and Engineering',
+      institution: 'IIT (BHU) Varanasi',
+      period: '2013 – 2017',
+      details: 'Focused on algorithms, systems engineering, cryptography, and network security.'
+    }
+  ],
+
+  skills: {
+    languages: ['TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3/SCSS', 'C/C++'],
+    frontend: ['React.js', 'Next.js (SSR/SSG)', 'Redux Toolkit', 'TanStack Query', 'Electron', 'TailwindCSS'],
+    systems: ['Android System APIs', 'fscrypt', 'Dual DAR', 'Linux Kernel Cryptography', 'SELinux Policies'],
+    tools: ['Git', 'Webpack', 'Vite', 'Docker', 'Storybook', 'CI/CD Pipelines']
+  },
+
+  certifications: [
+    {
+      title: 'Samsung Advanced Cryptography Certification',
+      issuer: 'Samsung R&D Institute',
+      year: '2019'
+    },
+    {
+      title: 'Certified Secure Software Lifecycle Professional (CSSLP) Prep',
+      issuer: 'Samsung Security Center',
+      year: '2021'
+    }
+  ],
+
+  publications: [
+    {
+      title: 'Securing File System-level Cryptography in Enterprise Android Devices',
+      venue: 'Samsung Technical Conference & R&D Journal',
+      year: '2020',
+      description: 'Discussed the integration of SDP (Sensitive Data Protection) with fscrypt drivers and hardware-backed Keymaster layers.'
+    }
+  ]
 };
+

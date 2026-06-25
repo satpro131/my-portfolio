@@ -13,6 +13,7 @@ import TransitionOverlay from './components/TransitionOverlay';
 import HomePage from './pages/HomePage';
 import ProjectsPage from './pages/ProjectsPage';
 import ExperiencePage from './pages/ExperiencePage';
+import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AIAgentPage from './pages/AIAgentPage';
 
@@ -81,8 +82,9 @@ export default function App() {
                 <Route path="/" element={<HomePage onNavigate={navigateTo} />} />
                 <Route path="/projects" element={<ProjectsPage />} />
                 <Route path="/experience" element={<ExperiencePage />} />
+                <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
-                <Route path="/ai-agent" element={<AIAgentPage />} />
+                <Route path="/satpro-ai" element={<AIAgentPage />} />
               </Routes>
 
               {/* Status bar */}

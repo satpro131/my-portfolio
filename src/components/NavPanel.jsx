@@ -3,7 +3,8 @@ export default function NavPanel({ isOpen, onClose, onNavigate }) {
     { label: 'HOME', page: 'home' },
     { label: 'PROJECTS', page: 'projects' },
     { label: 'EXPERIENCE', page: 'experience' },
-    { label: 'AI AGENT', page: 'ai-agent' },
+    { label: 'ABOUT', page: 'about' },
+    { label: 'SATPRO.AI', page: 'satpro-ai' },
     { label: 'CONTACT', page: 'contact' },
   ];
 

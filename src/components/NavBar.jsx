@@ -36,7 +36,11 @@ export default function NavBar({ currentPage, onNavigate }) {
 
       <div className="nav-right">
         <span className="nav-right-text">
-          {currentPage === 'home' ? 'PORTFOLIO' : currentPage?.toUpperCase()}
+          {currentPage === 'home'
+            ? 'PORTFOLIO'
+            : currentPage === 'satpro-ai'
+            ? 'SATPRO.AI'
+            : currentPage?.toUpperCase()}
         </span>
       </div>
     </nav>

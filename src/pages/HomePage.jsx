@@ -8,7 +8,7 @@ export default function HomePage({ onNavigate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!query.trim()) return;
-    onNavigate?.('ai-agent', { initialQuery: query });
+    onNavigate?.('satpro-ai', { initialQuery: query });
   };
 
   return (
@@ -35,7 +35,7 @@ export default function HomePage({ onNavigate }) {
       <div className="ai-agent-teaser">
         <div className="teaser-badge">
           <span className="pulse-dot"></span>
-          SYS.AI: ACTIVE
+          SATPRO.AI: ACTIVE
         </div>
         <form onSubmit={handleSubmit} className="teaser-input-wrapper">
           <span className="teaser-prompt">satpro-chat:~$</span>
