@@ -1,0 +1,71 @@
+SATYA PRAKASH
+Senior / Lead Frontend Engineer
+Email: satya.prakash.roy01@gmail.com
+LinkedIn: linkedin.com/in/satpro/
+Location: Bengaluru, India
+
+=== PROFESSIONAL SUMMARY ===
+Senior / Lead Frontend Engineer with 8+ years of experience architecting and shipping high-performance, real-time web and desktop applications. Deep expertise in React.js, Next.js, TypeScript, and Electron — with a strong command of Redux/RTK state management, WebSocket-driven data layers, Micro-frontend Architecture, and cross-platform JavaScript SDK development. AI-native engineer who builds with Cursor and Antigravity as core parts of the development workflow. Demonstrated ability to lead frontend teams, own end-to-end architecture decisions, and drive Agile/Scrum delivery. Proven experience across high-scale consumer products (MPL — 10M+ users), B2B SDK platforms (Cloudfeather Games — 15+ game integrations), enterprise security systems (Samsung Knox — 500K+ enterprise deployments), and AI-powered EdTech platforms (Xamine.ai, Kaksha.xamine.ai). IIT (BHU) graduate.
+
+=== EXPERIENCE ===
+
+Co-Founder & Lead Frontend Engineer
+Xamine Tech Labs Pvt Ltd.
+Oct 2025 – Present | Bengaluru, India
+- Delivered two live production-grade AI-powered EdTech platforms (Xamine.ai & Kaksha) from scratch.
+- Xamine.ai: Engineered cognitive AI analytics for JEE/NEET prep, capturing 20+ real-time client-side student metrics (including response latency, time-per-question, and attention levels).
+- Kaksha Classroom: Developed an AI-powered virtual classroom featuring interactive blackboards, dynamic interrupt Q&A flow, and real-time multiplayer whiteboard synchronization.
+- Video Optimization: Architected local memory caching and buffer storage optimization layers to achieve fast-paced, zero-lag classroom video streaming and delivery on low bandwidths.
+
+Senior Frontend Engineer
+MPL (Mobile Premier League)
+Sep 2024 – Oct 2025 | Bengaluru, India
+- Architected and shipped multi-window Desktop Poker Electron app, delivering seamless gaming performance under heavy concurrent usage.
+- Scale & Optimization: Optimized the system to support 20+ concurrent poker game tables, reducing system resource consumption by 40% using GPU acceleration.
+- Data Sync: Accelerated state synchronization to sub-100ms updates across multi-window processes by engineering a unified data layer over a single WebSocket feed.
+- Hardware Compatibility: Optimized core engine load and layout interactions to run smoothly on low-end hardware with minimal frame drops.
+- Micro-Frontend Architecture: Collaborated with multiple cross-functional teams to integrate gameplay components using Module Federation.
+- Technical Leadership: Mentored and guided a team of 6 frontend engineers on poker client architecture, state management, and real-time synchronization layers.
+
+Lead Frontend Engineer — Founding Engineer
+Cloudfeather Games
+Mar 2022 – Sep 2024 | Bengaluru, India
+- Designed and shipped Bountyverse SDK for competitive formats on casual gaming, successfully integrating the system with 15+ game studio partners.
+- Onboarding Reductions: Reduced developer onboarding time to less than a week (from 3 weeks down to 4 days) by engineering custom dashboard tooling and client-configured UI elements.
+- Team Growth: Maintained responsibility for hiring, building, and scaling a team of 4 frontend engineers.
+- Engineering Guidance: Guided the engineering team on SDK feature development, partner game integration workflows, and admin dashboard architecture.
+
+Lead Engineer — Samsung Knox Security
+Samsung R&D Institute
+Jun 2017 – Mar 2022 | Noida, India
+- Promoted from Corporate Associate Engineer to Lead Engineer for contributions to flagship security features.
+- Core Dual DAR Development: Worked in South Korea as part of the core flagship team that developed Dual Data-at-Rest (Dual DAR) encryption.
+- Encryption Migration & Porting: Directed the transition of the Knox Enterprise Partition Manager from legacy ecryptfs to hardware-backed fscrypt encryption, porting it across 20+ flagship Samsung device models.
+- Team Leadership: Mentored and guided a team of 4 engineers on security driver integration and Knox system APIs.
+- Testing Pipeline Automation: Developed an automated kernel-level test automation pipeline using custom shell test suites and device automation scripts, reducing system regression validation cycles by 70%.
+
+Co-Founder & Frontend Lead
+Infistart Solutions
+Sep 2016 – Jun 2017 | Bengaluru, India
+- Co-founded software startup during IIT (BHU) college days, leading frontend architecture and product interface design.
+- Educational ERP: Engineered a comprehensive ERP system for coaching institutes using AngularJS, reducing administrative manual work by 80%.
+- Digital Exam Platform: Developed a web-based examination system delivering detailed post-exam insight diagnostics and performance dashboards.
+- Attendance Tracking: Designed and shipped an intuitive digital attendance tracking system tailored for educational institutions.
+
+=== EDUCATION ===
+B.Tech in Computer Science and Engineering
+IIT (BHU) Varanasi
+2013 – 2017
+
+=== SKILLS ===
+Languages: TypeScript (Expert), JavaScript (ES6+/ES2023), HTML5, CSS3, SASS, C/C++, Python
+Frameworks & State: React.js, Next.js (SSR/SSG/ISR), Electron (multi-window, IPC), Redux / RTK, RTK Query, React Query (TanStack), Context API, WebSocket, Socket.io
+UI & Styling: Material UI, Styled Components, Emotion (CSS-in-JS), Tailwind CSS, Storybook
+Micro-frontends: Module Federation, Component Integration, Micro-frontends
+Performance: Core Web Vitals (LCP/CLS/INP), Google Lighthouse, Webpack Bundle Analyzer, React Profiler, GPU Acceleration, Code Splitting, Memory Leak Detection
+Testing: Jest, React Testing Library, Cypress, Playwright (E2E, multi-window)
+Build: Webpack, Vite, Babel, npm/yarn, Git, ESLint, Prettier
+CI/CD: GitHub Actions, Jenkins, Docker, AWS S3/CloudFront
+Security: OAuth 2.0, SSO, WCAG 2.1, Data-at-Rest encryption, Samsung Knox, TEE, fscrypt
+AI Tools: Cursor, Antigravity, GitHub Copilot, Prompt Engineering
+Methodologies: Agile/Scrum, Design Systems, Figma-to-Code, JIRA, Tech Roadmap Planning
