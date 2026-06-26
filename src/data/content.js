@@ -151,36 +151,76 @@ export const siteData = {
       degree: 'B.Tech in Computer Science and Engineering',
       institution: 'IIT (BHU) Varanasi',
       period: '2013 – 2017',
-      details: 'Focused on algorithms, systems engineering, cryptography, and network security.'
+      details: 'Focused on data structure and algorithms, software engineering, system design and networking.'
     }
   ],
 
-  skills: {
-    languages: ['TypeScript', 'JavaScript (ES6+)', 'HTML5', 'CSS3/SCSS', 'C/C++'],
-    frontend: ['React.js', 'Next.js (SSR/SSG)', 'Redux Toolkit', 'TanStack Query', 'Electron', 'TailwindCSS'],
-    systems: ['Android System APIs', 'fscrypt', 'Dual DAR', 'Linux Kernel Cryptography', 'SELinux Policies'],
-    tools: ['Git', 'Webpack', 'Vite', 'Docker', 'Storybook', 'CI/CD Pipelines']
-  },
+  skills: [
+    {
+      category: 'Languages',
+      items: ['TypeScript (Expert)', 'JavaScript (ES6+/ES2023)', 'HTML5', 'CSS3', 'SASS', 'C/C++', 'Python']
+    },
+    {
+      category: 'Frameworks & State',
+      items: ['React.js', 'Next.js (SSR/SSG/ISR)', 'Electron (multi-window, IPC)', 'Redux / RTK', 'RTK Query', 'React Query (TanStack)', 'Context API', 'WebSocket', 'Socket.io']
+    },
+    {
+      category: 'UI & Styling',
+      items: ['Material UI', 'Styled Components', 'Emotion (CSS-in-JS)', 'Tailwind CSS', 'Storybook']
+    },
+    {
+      category: 'Micro-frontends & Architecture',
+      items: ['Module Federation', 'Component Integration', 'Micro-frontends']
+    },
+    {
+      category: 'Performance & Optimization',
+      items: ['Core Web Vitals (LCP/CLS/INP)', 'Google Lighthouse', 'Webpack Bundle Analyzer', 'React Profiler', 'GPU Acceleration', 'Code Splitting', 'Memory Leak Detection']
+    },
+    {
+      category: 'Testing & Quality',
+      items: ['Jest', 'React Testing Library', 'Cypress', 'Playwright (E2E, multi-window)']
+    },
+    {
+      category: 'Build & Tooling',
+      items: ['Webpack', 'Vite', 'Babel', 'npm/yarn', 'Git', 'ESLint', 'Prettier']
+    },
+    {
+      category: 'CI/CD & Cloud',
+      items: ['GitHub Actions', 'Jenkins', 'Docker', 'AWS S3/CloudFront']
+    },
+    {
+      category: 'Security & Auth',
+      items: ['OAuth 2.0', 'SSO', 'WCAG 2.1', 'Data-at-Rest encryption', 'Samsung Knox', 'TEE', 'fscrypt']
+    },
+    {
+      category: 'AI-Assisted Dev',
+      items: ['Cursor', 'Antigravity', 'GitHub Copilot', 'LLM Prompt Engineering']
+    },
+    {
+      category: 'Process & Methodologies',
+      items: ['Agile/Scrum', 'Design Systems', 'Figma-to-Code', 'JIRA', 'Tech Roadmap Planning']
+    }
+  ],
 
   certifications: [
     {
-      title: 'Samsung Advanced Cryptography Certification',
-      issuer: 'Samsung R&D Institute',
-      year: '2019'
+      title: 'Advanced Learning Algorithms',
+      issuer: 'DeepLearning.AI / Stanford University',
+      year: 'May 2024'
     },
     {
-      title: 'Certified Secure Software Lifecycle Professional (CSSLP) Prep',
-      issuer: 'Samsung Security Center',
-      year: '2021'
+      title: 'Supervised Machine Learning: Regression and Classification',
+      issuer: 'DeepLearning.AI / Stanford University',
+      year: 'Apr 2024'
     }
   ],
 
   publications: [
     {
-      title: 'Securing File System-level Cryptography in Enterprise Android Devices',
-      venue: 'Samsung Technical Conference & R&D Journal',
-      year: '2020',
-      description: 'Discussed the integration of SDP (Sensitive Data Protection) with fscrypt drivers and hardware-backed Keymaster layers.'
+      title: 'Energy Efficient Scheduling of Independent Tasks on Multicore Processors with Software Controlled Dynamic Voltage Scaling — International Conference on Parallel and Distributed Processing Techniques and Applications',
+      venue: "The 23rd Int'l Conf on Parallel and Distributed Processing Techniques and Applications at Las Vegas, Nevada, USA",
+      year: '2017',
+      description: 'Modified Energy-Efficient Task Scheduling Algorithm (EETSA) for multicore processors that schedules independent tasks within a common deadline in two phases, successfully outperforming the original EETSA and OPT algorithms in both scheduling time and energy consumption without increasing computational complexity'
     }
   ]
 };

@@ -56,8 +56,14 @@
 }
 
 .crt-container.theme-about {
-  --accent: #0ea5e9;
-  --accent-dim: rgba(14, 165, 233, 0.10);
+  --bg: #ffffff;
+  --fg: #0f172a;
+  --fg-dim: #475569;
+  --fg-dimmer: #e2e8f0;
+  --accent: #4f46e5;
+  --accent-dim: rgba(79, 70, 229, 0.06);
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.15);
 }
 
 /* ── RESET ──────────────────────────────────────────── */
@@ -3414,10 +3420,38 @@ a {
 
 .cert-item {
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
   align-items: center;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cert-logo-wrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+}
+
+.cert-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.cert-content-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 
 .cert-item:last-child {
@@ -3443,6 +3477,172 @@ a {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--accent);
+}
+/* ── Theme-About overrides for Light/White theme ── */
+.about-page .projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+.about-page .projects-header-content {
+  flex-grow: 1;
+}
+
+.about-resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #ffffff !important;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px var(--accent-dim);
+  flex-shrink: 0;
+}
+
+.about-resume-btn:hover {
+  background: #3930d8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
+}
+
+.about-resume-btn .btn-icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  .about-page .projects-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.crt-container.theme-about .about-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04);
+}
+
+.crt-container.theme-about .about-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.08);
+  transform: translateY(-3px);
+}
+
+/* Adjust text shadows of the headings for better light-theme contrast */
+.crt-container.theme-about .title-glow-cyan {
+  color: #0284c7;
+  text-shadow: 0 0 10px rgba(2, 132, 199, 0.2);
+}
+
+.crt-container.theme-about .title-glow-gold {
+  color: #b45309;
+  text-shadow: 0 0 10px rgba(180, 83, 9, 0.2);
+}
+
+.crt-container.theme-about .title-glow-green {
+  color: #15803d;
+  text-shadow: 0 0 10px rgba(21, 128, 61, 0.2);
+}
+
+.crt-container.theme-about .title-glow-red {
+  color: #b91c1c;
+  text-shadow: 0 0 10px rgba(185, 28, 28, 0.2);
+}
+
+.crt-container.theme-about .edu-details,
+.crt-container.theme-about .pub-desc {
+  color: var(--fg-dim);
+}
+
+.crt-container.theme-about .edu-item,
+.crt-container.theme-about .pub-item {
+  border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+.crt-container.theme-about .cert-item {
+  border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+/* Specific styling for the IIT BHU logo layout */
+.edu-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.edu-logo-col {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+}
+
+.edu-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.edu-info-col {
+  flex-grow: 1;
+}
+
+/* Badges for technical skills in light mode */
+.crt-container.theme-about .skill-badge {
+  background: rgba(2, 132, 199, 0.06);
+  border: 1px solid rgba(2, 132, 199, 0.15);
+  color: #0284c7;
+}
+
+.crt-container.theme-about .skill-badge-frontend {
+  background: rgba(21, 128, 61, 0.06);
+  border: 1px solid rgba(21, 128, 61, 0.15);
+  color: #15803d;
+}
+
+.crt-container.theme-about .skill-badge-systems {
+  background: rgba(180, 83, 9, 0.06);
+  border: 1px solid rgba(180, 83, 9, 0.15);
+  color: #b45309;
+}
+
+.crt-container.theme-about .skill-badge-tools {
+  background: rgba(185, 28, 28, 0.06);
+  border: 1px solid rgba(185, 28, 28, 0.15);
+  color: #b91c1c;
+}
+
+@media (max-width: 600px) {
+  .edu-item {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .edu-logo-col {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 /* Responsive constraints for About Page */
