@@ -2589,7 +2589,7 @@ export default function ProjectsPage({ onNavigate }) {
         <div className="pj-cta-content">
           <p className="pj-cta-eyebrow">WHAT'S NEXT?</p>
           <h2 className="pj-cta-title">Interested in working together?</h2>
-          <p className="pj-cta-subtitle">Let's build something exceptional. Get in touch to collaborate on system architectures, high-performance frontend engineering, or secure TEE partitions.</p>
+          <p className="pj-cta-subtitle">Let's build something exceptional. Get in touch to collaborate on system architectures and high-performance frontend engineering.</p>
           <button 
             className="pj-cta-btn" 
             onClick={() => onNavigate && onNavigate('contact')}

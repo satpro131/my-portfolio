@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { siteData } from '../data/content';
 
 const ICONS = {
@@ -10,19 +11,6 @@ const ICONS = {
   twitter: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M13.232 10.768L20 4" />
-    </svg>
-  ),
-  dribbble: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72M19.13 5.09C15.22 9.14 10.2 10.44 2.22 10.88M21.75 12.84c-6.62-1.41-12.14.48-16.38 6.78" />
-    </svg>
-  ),
-  instagram: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" />
-      <circle cx="12" cy="12" r="5" />
-      <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   ),
   linkedin: (
@@ -49,32 +37,90 @@ const ICONS = {
   ),
 };
 
+const ACCENTS = {
+  mail: '#00d2ff',
+  linkedin: '#6366f1',
+  phone: '#10b981',
+  file: '#f59e0b',
+};
+
 export default function ContactPage() {
+  const [localTime, setLocalTime] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      };
+      const formatter = new Intl.DateTimeFormat([], options);
+      setLocalTime(formatter.format(new Date()));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="page-content">
       <div className="contact-page">
-        <div className="contact-inner">
-          <h1 className="contact-title">GET IN<br />TOUCH</h1>
-          <div className="contact-links">
-            {siteData.contact.map((link) => (
-              <a
-                key={link.label}
-                className="contact-link"
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-hover
-              >
-                <span className="contact-link-icon">
-                  {ICONS[link.icon]}
-                </span>
-                <span>
-                  <strong>{link.label}</strong>
-                  <br />
-                  <span style={{ opacity: 0.5, fontSize: '13px' }}>{link.value}</span>
-                </span>
-              </a>
-            ))}
+        {/* Decorative Grid overlays */}
+        <div className="cyber-grid-overlay" />
+        <div className="contact-glow glow-left" />
+        <div className="contact-glow glow-right" />
+
+        <div className="contact-container">
+          {/* Left Column - Headline & Time */}
+          <div className="contact-info-panel">
+            <span className="contact-eyebrow">// CONNECT WITH ME</span>
+            <h1 className="contact-main-title">SAY HELLO.</h1>
+            <p className="contact-intro-text">
+              Have an idea, project, or contract role you'd like to discuss? Reach out and let's construct high-performance architectures together to make world better.
+            </p>
+
+            <div className="contact-timezone-widget">
+              <div className="timezone-indicator">
+                <span className="live-pulse" />
+                <span className="timezone-label">CURRENT ZONE: IST (UTC+5:30)</span>
+              </div>
+              <div className="timezone-time-value">{localTime || '12:00:00 PM'}</div>
+              <div className="timezone-location">BENGALURU, INDIA</div>
+            </div>
+          </div>
+
+          {/* Right Column - Grid Cards */}
+          <div className="contact-grid">
+            {siteData.contact.map((link) => {
+              const accentColor = ACCENTS[link.icon] || '#ffffff';
+              return (
+                <a
+                  key={link.label}
+                  className="contact-card"
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ '--card-accent': accentColor }}
+                  data-hover
+                >
+                  <div className="contact-card-mesh" />
+                  <div className="contact-card-header">
+                    <span className="contact-card-icon-wrap">
+                      {ICONS[link.icon]}
+                    </span>
+                    <span className="contact-card-label">{link.label}</span>
+                  </div>
+                  <div className="contact-card-body">
+                    <span className="contact-card-value">{link.value}</span>
+                    <span className="contact-card-action">
+                      {link.icon === 'file' ? 'Download PDF' : 'Send Message'} &rarr;
+                    </span>
+                  </div>
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
