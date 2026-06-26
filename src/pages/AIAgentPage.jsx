@@ -123,7 +123,15 @@ export default function AIAgentPage() {
         queryText = 'What papers or publications has Satya Prakash written?';
       }
 
-      const reply = await sendMessage(queryText, contextRef.current);
+      // Format previous logs as Generative SDK chat history
+      const formattedHistory = logs
+        .filter((log) => log.type === 'user' || log.type === 'ai')
+        .map((log) => ({
+          role: log.type === 'user' ? 'user' : 'model',
+          parts: [{ text: log.text }]
+        }));
+
+      const reply = await sendMessage(queryText, contextRef.current, formattedHistory);
       setLogs((prev) => [...prev, { type: 'ai', text: reply }]);
     } catch (err) {
       console.error(err);

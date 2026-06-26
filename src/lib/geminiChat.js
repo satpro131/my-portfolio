@@ -31,7 +31,7 @@ STRICT RULES YOU MUST FOLLOW:
 let lastCallTime = 0;
 const MIN_INTERVAL_MS = 2000; // minimum 2 seconds between calls
 
-export async function sendMessage(userMessage, context) {
+export async function sendMessage(userMessage, context, history = []) {
   const now = Date.now();
   if (now - lastCallTime < MIN_INTERVAL_MS) {
     throw new Error('Please wait a moment before sending another message.');
@@ -43,7 +43,11 @@ export async function sendMessage(userMessage, context) {
     systemInstruction: buildSystemPrompt(context),
   });
 
-  const result = await model.generateContent(userMessage);
+  const chat = model.startChat({
+    history: history,
+  });
+
+  const result = await chat.sendMessage(userMessage);
   const response = await result.response;
   return response.text();
 }
