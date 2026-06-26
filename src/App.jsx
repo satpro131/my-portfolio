@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useCustomCursor } from './hooks/useCustomCursor';
 import { siteData } from './data/content';
@@ -29,6 +29,57 @@ export default function App() {
   const cursorRef = useCustomCursor();
 
   const path = location.pathname === '/' ? 'home' : location.pathname.substring(1);
+
+  // Dynamic SEO metadata updates on route change
+  useEffect(() => {
+    const metaMap = {
+      '/': {
+        title: 'Satya Prakash — Senior & Lead Frontend Engineer',
+        description: 'Satya Prakash — Senior / Lead Frontend Engineer with 8+ years of experience. Founder of Xamine.ai, ex-MPL, ex-Samsung Knox.'
+      },
+      '/projects': {
+        title: 'Projects | Satya Prakash',
+        description: 'Explore high-performance engineering showcases, Electron poker engines, EdTech class platforms, and SDK packages.'
+      },
+      '/experience': {
+        title: 'Experience | Satya Prakash',
+        description: 'Career history, systems security engineering, product lead roles, and startup foundations.'
+      },
+      '/about': {
+        title: 'About | Satya Prakash',
+        description: 'About Satya Prakash - Senior Frontend Engineer specializing in React, Next.js, Electron, and high-performance system architectures.'
+      },
+      '/contact': {
+        title: 'Contact | Satya Prakash',
+        description: 'Get in touch with Satya Prakash. Open for collaborations, leadership roles, and frontend architecture consulting.'
+      },
+      '/satpro-ai': {
+        title: 'Satpro AI Agent | Satya Prakash',
+        description: 'Meet Satpro AI - an interactive portfolio companion trained on Satya Prakash\'s career milestones.'
+      }
+    };
+
+    const currentMeta = metaMap[location.pathname] || metaMap['/'];
+
+    // Update tab title
+    document.title = currentMeta.title;
+
+    // Update meta description tags
+    const descMeta = document.querySelector('meta[name="description"]');
+    if (descMeta) descMeta.setAttribute('content', currentMeta.description);
+
+    // Update Open Graph (Social Sharing) meta tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', currentMeta.title);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', currentMeta.description);
+
+    // Update Twitter Card meta tags
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', currentMeta.title);
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', currentMeta.description);
+  }, [location.pathname]);
 
   const handlePreloaderComplete = useCallback(() => {
     setLoading(false);
