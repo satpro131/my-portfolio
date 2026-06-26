@@ -110,7 +110,7 @@ a {
   position: fixed;
   width: 20px;
   height: 20px;
-  border: 2px solid var(--fg);
+  border: 2px solid #ffffff;
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
@@ -3620,6 +3620,12 @@ a {
   text-shadow: 0 0 8px rgba(74, 222, 128, 0.15);
 }
 
+.terminal-error-output {
+  color: #f87171; /* bright amber/red for system errors */
+  white-space: pre-wrap;
+  text-shadow: 0 0 8px rgba(248, 113, 113, 0.2);
+}
+
 .terminal-prompt-line {
   background: rgba(0, 0, 0, 0.2);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -3645,7 +3651,7 @@ a {
   font-size: 13px;
   color: #ffffff;
   padding: 0;
-  caret-color: var(--accent);
+  caret-color: #ffffff;
 }
 
 /* Mobile responsive adjustments */

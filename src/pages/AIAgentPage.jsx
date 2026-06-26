@@ -149,7 +149,7 @@ export default function AIAgentPage() {
       
       setLogs((prev) => [
         ...prev,
-        { type: 'ai', text: userFriendlyMessage }
+        { type: 'error', text: userFriendlyMessage }
       ]);
     } finally {
       setLoading(false);
@@ -192,6 +192,10 @@ export default function AIAgentPage() {
                   <span className="terminal-user-input">{log.text}</span>
                 ) : log.type === 'system' ? (
                   <span className="terminal-system-output">{log.text}</span>
+                ) : log.type === 'error' ? (
+                  <span className="terminal-error-output">
+                    <ReactMarkdown>{log.text}</ReactMarkdown>
+                  </span>
                 ) : (
                   <span className="terminal-ai-output">
                     <ReactMarkdown>{log.text}</ReactMarkdown>
