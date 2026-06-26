@@ -85,34 +85,19 @@ export const siteData = {
     },
     {
       id: 5,
-      title: 'Samsung Knox SDP',
-      headline: 'Military-grade data protection in your pocket.',
-      eyebrow: 'SYSTEM SECURITY • ANDROID OS',
-      accentColor: '#7f00ff',
-      description: 'Sensitive Data Protection secure folder encryption feature shipped across flagship Samsung devices globally using Android system APIs.',
-      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=500&fit=crop',
-      tags: ['C/C++', 'Android SDK', 'Knox TEE', 'Security'],
-      highlights: [
-        { label: 'Devices globally', value: 'Flagship Scale' },
-        { label: 'Secure hardware', value: 'TEE Protected' },
-        { label: 'System levels', value: 'Android API' }
-      ]
-    },
-    {
-      id: 6,
-      title: 'Samsung Knox Dual DAR',
-      headline: 'Double-layered filesystem encryption.',
-      eyebrow: 'FILESYSTEM • ENTERPRISE KERNEL',
+      title: 'Samsung Knox Security',
+      headline: 'Defense-grade Sensitive Data Protection & Dual DAR.',
+      eyebrow: 'SYSTEM SECURITY • OS KERNEL',
       accentColor: '#3d5afe',
-      description: 'Filesystem-level dual layer encryption implementation (fscrypt / Keymaster) for enterprise and government high-security deployments.',
-      image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=500&fit=crop',
-      tags: ['fscrypt', 'Keymaster', 'Kernel Systems', 'Security'],
+      description: 'Led implementation of Sensitive Data Protection (SDP) and Dual DAR encryption drivers (fscrypt/Keymaster) shipped globally on Samsung flagship devices.',
+      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=500&fit=crop',
+      tags: ['C/C++', 'fscrypt', 'Keymaster', 'Android Systems', 'Security Core'],
       highlights: [
-        { label: 'DAR security', value: 'Dual Layer' },
-        { label: 'Kernel level', value: 'fscrypt Engine' },
-        { label: 'Deployments', value: 'Govt Grade' }
+        { label: 'SDP Team Size', value: '4 Engineers' },
+        { label: 'Deployments', value: 'Govt Grade' },
+        { label: 'Security Level', value: 'Dual DAR' }
       ]
-    },
+    }
   ],
 
   experience: [
@@ -140,7 +125,7 @@ export const siteData = {
       company: 'Cloudfeather Games',
       location: 'Bengaluru, India',
       period: 'Mar 2022 – Sep 2024',
-      description: 'Designed and shipped Bountyverse SDK for real-money rewards. Built partner Admin Dashboard in Next.js/Material UI, reducing onboarding times from 3 weeks to 4 days. Managed dynamic themes and Storybook libraries.',
+      description: 'Designed and shipped Bountyverse SDK for competitive format on casual gaming. Built partner Admin Dashboard in Next.js/Material UI, reducing onboarding times from 3 weeks to 4 days. Managed dynamic themes and Storybook libraries.',
       tags: ['JavaScript SDK', 'React', 'Material UI', 'Storybook', 'CI/CD'],
     },
     {
@@ -149,7 +134,7 @@ export const siteData = {
       company: 'Samsung R&D Institute',
       location: 'Noida, India',
       period: 'Jun 2017 – Mar 2022',
-      description: 'Led Knox SDP (Sensitive Data Protection) and Dual DAR encryption implementation at file system level (fscrypt/Keymaster). Shipped across 500K+ enterprise/government deployments. Automated SELinux policy generation.',
+      description: '• Sensitive Data Protection (SDP): Led a team of 4 engineers to implement Samsung Knox SDP — secure folder encryption feature shipped across all Samsung devices — using C/C++ and Android system APIs\n• Dual Data-at-Rest (Dual DAR): Implemented Dual DAR encryption at the file system level (fscrypt / Keymaster) exclusively for flagship Samsung devices, adding a second encryption layer to meet enterprise and government security mandates\n• Cross-device porting: Ported Dual DAR and SDP implementation code across multiple flagship device variants, ensuring compatibility across OS versions and device-specific kernel differences\n• Enterprise Partition Manager migration: Ported the Knox Enterprise Partition Manager from legacy ext4 to fscrypt, enabling per-file/per-directory encryption and hardware-backed key management',
       tags: ['C/C++', 'Android Systems', 'fscrypt', 'Dual DAR', 'SELinux Automation'],
     },
   ],

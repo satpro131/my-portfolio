@@ -1,6 +1,33 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { siteData } from '../data/content';
 
+function DecryptText({ text, progress, start, end }) {
+  const pct = Math.max(0, Math.min(1, (progress - start) / (end - start)));
+  if (pct >= 1) return <span>{text}</span>;
+  if (pct <= 0) {
+    const garbled = text.split('').map(char => {
+      if (char === ' ' || char === '\n' || char === '—' || char === '-') return char;
+      const chars = '01#%&XY$@§ΔΩΨΦΞ±≠≈';
+      return chars[(char.charCodeAt(0)) % chars.length];
+    }).join('');
+    return <span className="knox-ciphertext">{garbled}</span>;
+  }
+  const revealCount = Math.floor(text.length * pct);
+  const revealed = text.substring(0, revealCount);
+  const remaining = text.substring(revealCount);
+  const garbledRemaining = remaining.split('').map((char, index) => {
+    if (char === ' ' || char === '\n' || char === '—' || char === '-') return char;
+    const chars = '01#%&XY$@§ΔΩΨΦΞ±≠≈';
+    return chars[(char.charCodeAt(0) + index) % chars.length];
+  }).join('');
+  return (
+    <span>
+      {revealed}
+      <span className="knox-ciphertext">{garbledRemaining}</span>
+    </span>
+  );
+}
+
 export default function ProjectsPage({ onNavigate }) {
   const sectionsRef = useRef([]);
   const containerRef = useRef(null);
@@ -30,6 +57,14 @@ export default function ProjectsPage({ onNavigate }) {
   // MPL Desktop Poker States & Refs
   const pokerSectionRef = useRef(null);
   const [pokerProgress, setPokerProgress] = useState(0);
+
+  // Bountyverse SDK States & Refs
+  const bountySectionRef = useRef(null);
+  const [bountyProgress, setBountyProgress] = useState(0);
+
+  // Samsung Knox Security States & Refs
+  const knoxSectionRef = useRef(null);
+  const [knoxProgress, setKnoxProgress] = useState(0);
 
   const selectHobby = (hobby) => {
     setKakshaHobby(hobby);
@@ -249,6 +284,28 @@ export default function ProjectsPage({ onNavigate }) {
         if (pScrollTrack > 0) {
           const pProgress = -pRect.top / pScrollTrack;
           setPokerProgress(Math.max(0, Math.min(1, pProgress)));
+        }
+      }
+
+      // Bountyverse Section scroll progress
+      const bSection = bountySectionRef.current;
+      if (bSection) {
+        const bRect = bSection.getBoundingClientRect();
+        const bScrollTrack = bRect.height - containerHeight;
+        if (bScrollTrack > 0) {
+          const bProgress = -bRect.top / bScrollTrack;
+          setBountyProgress(Math.max(0, Math.min(1, bProgress)));
+        }
+      }
+
+      // Knox Section scroll progress
+      const kxSection = knoxSectionRef.current;
+      if (kxSection) {
+        const kxRect = kxSection.getBoundingClientRect();
+        const kxScrollTrack = kxRect.height - containerHeight;
+        if (kxScrollTrack > 0) {
+          const kxProgress = -kxRect.top / kxScrollTrack;
+          setKnoxProgress(Math.max(0, Math.min(1, kxProgress)));
         }
       }
     };
@@ -2163,6 +2220,308 @@ export default function ProjectsPage({ onNavigate }) {
           );
         }
 
+        if (project.id === 4) {
+          const bProgress = bountyProgress;
+          
+          const bountyPoints = [
+            {
+              title: "SDK ARCHITECTURE",
+              desc: "Designed and shipped Bountyverse — a high-performance JavaScript SDK enabling competitive format on casual gaming, leaderboards, and anti-cheat scoring across 15+ integrated HTML5 game titles.",
+              reward: "15+ GAMES"
+            },
+            {
+              title: "ADMIN DASHBOARD",
+              desc: "Built a full-featured Admin Dashboard using React.js, Next.js, TypeScript, Redux, and Material UI with a reusable Storybook component library; reduced partner onboarding time from 3 weeks to 4 days.",
+              reward: "4 DAYS"
+            },
+            {
+              title: "THEMING & DESIGN SYSTEM",
+              desc: "Implemented a modular, scoped styling architecture using Styled Components and Emotion, enabling dynamic theming and consistent UI across partner dashboard and SDK-integrated game surfaces.",
+              reward: "DYNAMIC THEME"
+            },
+            {
+              title: "PERFORMANCE ENGINES",
+              desc: "Introduced Next.js SSR/SSG strategies and tree-shaking optimisations via Webpack Bundle Analyzer, reducing initial bundle size by 45% and Time-to-Interactive by ~2 seconds.",
+              reward: "-45% BUNDLE"
+            },
+            {
+              title: "CI/CD & AUTOMATION",
+              desc: "Established CI/CD pipelines (GitHub Actions) and Jest/Playwright automation, raising test coverage to 85%+; zero critical production incidents in final 12 months.",
+              reward: "85%+ TESTED"
+            }
+          ];
+
+          return (
+            <section
+              key={project.id}
+              className="pj-bounty-section"
+              ref={(el) => {
+                bountySectionRef.current = el;
+                sectionsRef.current[refIndex] = el;
+              }}
+              style={{ '--accent': project.accentColor }}
+            >
+              <div className="pj-bg-number">04</div>
+
+              <div className="bounty-sticky-wrapper">
+                {/* Saloon wooden board background */}
+                <div className="saloon-bounty-board">
+                  {/* Floating dust particles */}
+                  <div className="dust-particle dust-1" />
+                  <div className="dust-particle dust-2" />
+                  <div className="dust-particle dust-3" />
+                  <div className="dust-particle dust-4" />
+                  <div className="dust-particle dust-5" />
+
+                  {/* Header title */}
+                  <div className="bounty-board-header">
+                    <span className="saloon-badge">WANTED FOR INFRASTRUCTURE</span>
+                    <h2 className="saloon-title">BOUNTYVERSE SDK</h2>
+                    <p className="saloon-subtitle">Competitive format on casual gaming &amp; anti-cheat engine</p>
+                  </div>
+
+                  {/* 5 Posters Side-by-Side */}
+                  <div className="bounty-posters-container">
+                    {bountyPoints.map((pt, idx) => {
+                      const duration = 0.18;
+                      const step = duration * 0.85; // 0.153
+                      const startThreshold = 0.10 + idx * step;
+
+                      let unrollFactor = 0;
+                      if (bProgress > startThreshold) {
+                        unrollFactor = Math.min(1, (bProgress - startThreshold) / duration);
+                      }
+
+                      const isVisible = bProgress > startThreshold || idx === 0;
+
+                      return (
+                        <div 
+                          key={idx} 
+                          className="bounty-poster-wrapper"
+                          style={{
+                            opacity: isVisible ? 1 : 0,
+                            pointerEvents: isVisible ? 'auto' : 'none',
+                            zIndex: 10 + idx
+                          }}
+                        >
+                          {/* Rolled Cylinder header */}
+                          <div className="poster-roll-top" />
+
+                          {/* Dynamic unrolling sheet */}
+                          <div 
+                            className="poster-sheet"
+                            style={{ 
+                              height: `${unrollFactor * 100}%`,
+                              opacity: unrollFactor > 0.05 ? 1 : 0
+                            }}
+                          >
+                            <div 
+                              className="poster-content"
+                              style={{
+                                opacity: unrollFactor > 0.6 ? (unrollFactor - 0.6) / 0.4 : 0
+                              }}
+                            >
+                              <div className="poster-wanted">WANTED</div>
+                              
+                              <div className="poster-logo-wrap">
+                                <img src="/assets/bountyverse_logo.png" alt="Bountyverse Star" className="poster-badge-logo" />
+                              </div>
+
+                              <h3 className="poster-feature-title">{pt.title}</h3>
+                              
+                              <p className="poster-feature-desc">{pt.desc}</p>
+                              
+                              <div className="poster-bounty-payout">
+                                <span className="payout-label">BOUNTY REWARD</span>
+                                <span className="payout-value">{pt.reward}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Rolling bottom rod cylinder */}
+                          <div 
+                            className="poster-roll-bottom"
+                            style={{
+                              top: `${unrollFactor * 100}%`
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Section footer tags */}
+                  <div className="bounty-footer-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="pj-tag">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        }
+
+        if (project.id === 5) {
+          const kxProg = knoxProgress;
+
+          // Decryption progress and key states
+          const outerLockRotate = Math.min(360, kxProg * 2.5 * 360);
+          const innerLockRotate = kxProg > 0.4 ? Math.min(360, (kxProg - 0.4) * 2.5 * 360) : 0;
+
+          const isOuterUnlocked = kxProg >= 0.45;
+          const isInnerUnlocked = kxProg >= 0.75;
+
+          const knoxPoints = [
+            {
+              title: "Dual Data-at-Rest (Dual DAR)",
+              desc: "Implemented Dual DAR encryption at the file system level (fscrypt / Keymaster) exclusively for flagship Samsung devices, adding a second encryption layer to meet enterprise and government security mandates.",
+              start: 0.15,
+              end: 0.42,
+              layer: "OUTER LAYER"
+            },
+            {
+              title: "Enterprise Partition Manager Migration",
+              desc: "Ported the Knox Enterprise Partition Manager from legacy ext4 to fscrypt, enabling per-file/per-directory encryption and hardware-backed key management.",
+              start: 0.32,
+              end: 0.58,
+              layer: "FS DRIVER LAYER"
+            },
+            {
+              title: "Sensitive Data Protection (SDP)",
+              desc: "Led a team of 4 engineers to implement Samsung Knox SDP — secure folder encryption feature shipped across all Samsung devices — using C/C++ and Android system APIs.",
+              start: 0.50,
+              end: 0.76,
+              layer: "INNER TEE LAYER"
+            },
+            {
+              title: "Cross-Device Porting",
+              desc: "Ported Dual DAR and SDP implementation code across multiple flagship device variants, ensuring compatibility across OS versions and device-specific kernel differences.",
+              start: 0.68,
+              end: 0.92,
+              layer: "SYSTEM PORTING"
+            }
+          ];
+
+          return (
+            <section
+              key={project.id}
+              className="pj-knox-section"
+              ref={(el) => {
+                knoxSectionRef.current = el;
+                sectionsRef.current[refIndex] = el;
+              }}
+              style={{ '--accent': project.accentColor }}
+            >
+              <div className="pj-bg-number">05</div>
+
+              <div className="knox-sticky-wrapper">
+                <div className="knox-cyber-board">
+                  {/* Glowing background grid */}
+                  <div className="cyber-grid-overlay" />
+
+                  {/* Header Title */}
+                  <div className="knox-board-header">
+                    <span className="knox-security-badge">
+                      {isInnerUnlocked ? "UNLOCKED // SECURE CONTEXT ACTIVE" : isOuterUnlocked ? "OUTER DAR DECRYPTED // SDP RESTRICTED" : "LOCKED // DUAL LAYER ENCRYPTED"}
+                    </span>
+                    <h2 className="knox-title">SAMSUNG KNOX SECURITY</h2>
+                    <p className="knox-subtitle">Kernel-level encryption &amp; Trusted Execution Environment (TEE) filesystem engines</p>
+                  </div>
+
+                  <div className="knox-vault-container">
+                    {/* Vault Core Stages */}
+                    <div className="knox-vault-visual">
+                      {/* Outer Decryption Ring */}
+                      <div 
+                        className={`vault-ring ring-outer ${isOuterUnlocked ? 'unlocked' : ''}`}
+                        style={{ transform: `rotate(${outerLockRotate}deg)` }}
+                      >
+                        <div className="ring-notch notch-1">DAR</div>
+                        <div className="ring-notch notch-2">FSCRYPT</div>
+                        <div className="ring-notch notch-3">KEYMASTER</div>
+                      </div>
+
+                      {/* Inner Decryption Ring */}
+                      <div 
+                        className={`vault-ring ring-inner ${isInnerUnlocked ? 'unlocked' : ''}`}
+                        style={{ transform: `rotate(-${innerLockRotate}deg)` }}
+                      >
+                        <div className="ring-notch notch-inner-1">SDP</div>
+                        <div className="ring-notch notch-inner-2">TEE</div>
+                        <div className="ring-notch notch-inner-3">RAM WIPE</div>
+                      </div>
+
+                      {/* Core Vault Lock */}
+                      <div className={`vault-core-lock ${isInnerUnlocked ? 'fully-unlocked' : isOuterUnlocked ? 'partially-unlocked' : 'locked'}`}>
+                        <div className="lock-icon-wrap">
+                          {isInnerUnlocked ? (
+                            <svg className="lock-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6-5c1.66 0 3 1.34 3 3v2H9V6c0-1.66 1.34-3 3-3z"/></svg>
+                          ) : (
+                            <svg className="lock-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                          )}
+                        </div>
+                        <div className="lock-status-label">
+                          {isInnerUnlocked ? "ACCESS GRANTED" : isOuterUnlocked ? "LAYER 1 CLEAR" : "ENCRYPTED"}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Security Points */}
+                    <div className="knox-points-list">
+                      {knoxPoints.map((pt, idx) => {
+                        const isRevealed = kxProg > pt.start;
+                        const revealPct = Math.max(0, Math.min(1, (kxProg - pt.start) / (pt.end - pt.start)));
+                        
+                        return (
+                          <div 
+                            key={idx} 
+                            className={`knox-point-card ${isRevealed ? 'active' : ''} ${revealPct >= 1 ? 'decrypted' : ''}`}
+                            style={{
+                              opacity: isRevealed ? 0.6 + revealPct * 0.4 : 0.35,
+                              transform: isRevealed ? `translateX(${10 * (1 - revealPct)}px)` : 'none',
+                              transition: 'opacity 0.3s ease, border-color 0.4s ease, box-shadow 0.4s ease'
+                            }}
+                          >
+                            <div className="point-card-header">
+                              <span className="point-layer-tag">{pt.layer}</span>
+                              <span className="point-status-indicator">
+                                {revealPct >= 1 ? "[SECURE_CLEAR]" : revealPct > 0 ? `[DECRYPTING_${Math.floor(revealPct * 100)}%]` : "[LOCKED]"}
+                              </span>
+                            </div>
+                            <h3 className="point-card-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              {revealPct < 1 ? (
+                                <svg style={{ width: '14px', height: '14px', color: revealPct > 0 ? '#f59e0b' : '#ef4444' }} viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                                </svg>
+                              ) : (
+                                <svg style={{ width: '14px', height: '14px', color: '#10b981' }} viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6-5c1.66 0 3 1.34 3 3v2H9V6c0-1.66 1.34-3 3-3z"/>
+                                </svg>
+                              )}
+                              <DecryptText text={pt.title} progress={kxProg} start={pt.start} end={pt.start + 0.12} />
+                            </h3>
+                            <p className="point-card-desc">
+                              <DecryptText text={pt.desc} progress={kxProg} start={pt.start + 0.05} end={pt.end} />
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Section footer tags */}
+                  <div className="knox-footer-tags">
+                    {project.tags.map((tag) => (
+                      <span key={tag} className="pj-tag">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        }
+
         return (
           <section
             key={project.id}
@@ -2223,14 +2582,23 @@ export default function ProjectsPage({ onNavigate }) {
         className="pj-cta"
         ref={(el) => (sectionsRef.current[siteData.projects.length + 1] = el)}
       >
+        <div className="cta-glow glow-1" />
+        <div className="cta-glow glow-2" />
+        <div className="cyber-grid-overlay" />
+
         <div className="pj-cta-content">
-          <p className="pj-cta-text">Interested in working together?</p>
+          <p className="pj-cta-eyebrow">WHAT'S NEXT?</p>
+          <h2 className="pj-cta-title">Interested in working together?</h2>
+          <p className="pj-cta-subtitle">Let's build something exceptional. Get in touch to collaborate on system architectures, high-performance frontend engineering, or secure TEE partitions.</p>
           <button 
             className="pj-cta-btn" 
             onClick={() => onNavigate && onNavigate('contact')}
             data-hover
           >
-            Get in Touch
+            <span>Get in Touch</span>
+            <svg className="cta-btn-arrow" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="currentColor" d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z" />
+            </svg>
           </button>
         </div>
       </section>

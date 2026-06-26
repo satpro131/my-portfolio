@@ -22,18 +22,16 @@ const COMMAND_RESPONSES = {
 1. Xamine.ai & Kaksha: Personalised AI Learning Platforms built from scratch using React, Next.js, and TypeScript, featuring real-time biometric student behavior tracking.
 2. MPL Desktop Poker client: High-performance multi-window Electron + Next.js desktop client with GPU offloading and WebSocket synchronization.
 3. Bountyverse SDK: Modular game reward JavaScript SDK integrated across 15+ game titles at Cloudfeather Games.
-4. Samsung Knox SDP: Secure partition file-system level Dual DAR encryption shipped globally on Samsung flagship devices.`,
+4. Samsung Knox Security: Defense-grade Sensitive Data Protection (SDP) & Dual DAR file-system level encryption shipped globally on Samsung flagship devices.`,
   '/experience': `PROFESSIONAL SUMMARY:
 - Founder & Lead Frontend Engineer | Xamine.ai (2025 - Present)
 - Senior Frontend Engineer | MPL (Mobile Premier League) (2024 - 2025)
 - Founding Lead Frontend Engineer | Cloudfeather Games (2022 - 2024)
 - Lead Systems Engineer | Samsung R&D Institute (2017 - 2022)
-IIT (BHU) Varanasi CSE Graduate.`,
+- IIT (BHU) Varanasi CSE Graduate.`,
   '/skills': `CORE TECHNICAL STACK:
 Languages: TypeScript (Expert), JavaScript (ES2023+), HTML5, CSS3, C/C++
-Frameworks: React.js, Next.js (SSR/SSG), Electron, Node.js
-State Management: Redux / RTK Query, React Query (TanStack)
-Security: Knox SDP, Dual DAR (fscrypt / Keymaster), SELinux Policies`,
+Cyber Systems: Knox SDP, Dual DAR (fscrypt / Keymaster), SELinux Policies`,
   '/education': `EDUCATION:
 - B.Tech in Computer Science and Engineering
   IIT (BHU) Varanasi (2013 - 2017)
@@ -46,7 +44,12 @@ Security: Knox SDP, Dual DAR (fscrypt / Keymaster), SELinux Policies`,
   Samsung Technical Conference & R&D Journal (2020)
   Overview: Discussed the integration of SDP (Sensitive Data Protection) with fscrypt drivers and hardware-backed Keymaster layers.`,
   '/knox': `SAMSUNG KNOX SECURITY:
-Lead Engineer. Shipped Secure Folder file-system level encryption (SDP) and Dual Data-at-Rest (Dual DAR) cryptographic drivers (fscrypt) across all flagship devices, securing over 500,000 enterprise and government deployments globally.`,
+Lead Engineer (Samsung R&D Institute, 2017 - 2022).
+Key Achievements:
+• Sensitive Data Protection (SDP): Led a team of 4 engineers to implement Samsung Knox SDP — secure folder encryption feature shipped across all Samsung devices — using C/C++ and Android system APIs
+• Dual Data-at-Rest (Dual DAR): Implemented Dual DAR encryption at the file system level (fscrypt / Keymaster) exclusively for flagship Samsung devices, adding a second encryption layer to meet enterprise and government security mandates
+• Cross-device porting: Ported Dual DAR and SDP implementation code across multiple flagship device variants, ensuring compatibility across OS versions and device-specific kernel differences
+• Enterprise Partition Manager migration: Ported the Knox Enterprise Partition Manager from legacy ext4 to fscrypt, enabling per-file/per-directory encryption and hardware-backed key management`,
   '/xamine': `XAMINE.AI & KAKSHA:
 Founder. Designed and built two live AI JEE/NEET prep platforms. Kaksha provides custom whiteboard video lectures with dynamic teacher interruption, while Xamine tracks real-time exam indicators (guesswork, stress, distraction) to construct concept gap diagnostics.`,
 };
