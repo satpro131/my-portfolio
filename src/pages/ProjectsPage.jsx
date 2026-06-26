@@ -2433,13 +2433,14 @@ export default function ProjectsPage({ onNavigate }) {
                     {/* Vault Core Stages */}
                     <div className="knox-vault-visual">
                       {/* Outer Decryption Ring */}
+                      {/* 'C/C++', 'fscrypt', 'Keymaster', 'Android Systems', 'Security Core' */}
                       <div 
                         className={`vault-ring ring-outer ${isOuterUnlocked ? 'unlocked' : ''}`}
                         style={{ transform: `rotate(${outerLockRotate}deg)` }}
                       >
                         <div className="ring-notch notch-1">DAR</div>
                         <div className="ring-notch notch-2">FSCRYPT</div>
-                        <div className="ring-notch notch-3">KEYMASTER</div>
+                        <div className="ring-notch notch-3">FBE</div>
                       </div>
 
                       {/* Inner Decryption Ring */}
@@ -2447,9 +2448,9 @@ export default function ProjectsPage({ onNavigate }) {
                         className={`vault-ring ring-inner ${isInnerUnlocked ? 'unlocked' : ''}`}
                         style={{ transform: `rotate(-${innerLockRotate}deg)` }}
                       >
-                        <div className="ring-notch notch-inner-1">SDP</div>
+                        <div className="ring-notch notch-inner-1">C/C++</div>
                         <div className="ring-notch notch-inner-2">TEE</div>
-                        <div className="ring-notch notch-inner-3">RAM WIPE</div>
+                        <div className="ring-notch notch-inner-3">AES256</div>
                       </div>
 
                       {/* Core Vault Lock */}
@@ -2511,11 +2512,11 @@ export default function ProjectsPage({ onNavigate }) {
                   </div>
 
                   {/* Section footer tags */}
-                  <div className="knox-footer-tags">
+                  {/* <div className="knox-footer-tags">
                     {project.tags.map((tag) => (
                       <span key={tag} className="pj-tag">{tag}</span>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </section>

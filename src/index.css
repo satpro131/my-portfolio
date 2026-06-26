@@ -5879,11 +5879,10 @@ a {
 .knox-sticky-wrapper {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: 110vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .knox-cyber-board {
@@ -6038,15 +6037,17 @@ a {
   font-weight: 900;
   padding: 2px 6px;
   border-radius: 4px;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
 }
 
-.notch-1 { top: -8px; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
-.notch-2 { bottom: 20px; left: -10px; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
-.notch-3 { bottom: 20px; right: -10px; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
+.notch-1 { top: 0; left: 50%; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
+.notch-2 { top: 75%; left: 6.7%; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
+.notch-3 { top: 75%; left: 93.3%; background: rgba(59, 130, 246, 0.2); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
 
-.notch-inner-1 { top: -8px; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
-.notch-inner-2 { bottom: 10px; left: -5px; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
-.notch-inner-3 { bottom: 10px; right: -5px; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
+.notch-inner-1 { top: 0; left: 50%; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
+.notch-inner-2 { top: 75%; left: 6.7%; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
+.notch-inner-3 { top: 75%; left: 93.3%; background: rgba(168, 85, 247, 0.2); border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
 
 .vault-core-lock {
   width: 120px;
@@ -6216,7 +6217,7 @@ a {
   }
 
   .knox-cyber-board {
-    height: 100vh !important;
+    height: 100vh;
     padding: 30px 12px !important;
   }
 
@@ -6255,9 +6256,7 @@ a {
     height: 90px !important;
   }
 
-  .ring-notch, .notch-inner-1, .notch-inner-2, .notch-inner-3, .notch-1, .notch-2, .notch-3 {
-    display: none !important; /* Hide small notches on mobile for clean circles */
-  }
+
 
   .knox-points-list {
     width: 100% !important;
