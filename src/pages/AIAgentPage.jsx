@@ -135,9 +135,21 @@ export default function AIAgentPage() {
       setLogs((prev) => [...prev, { type: 'ai', text: reply }]);
     } catch (err) {
       console.error(err);
+      
+      let userFriendlyMessage = 'An unexpected error occurred while communicating with the AI Model core. Please try again.';
+      const errMsg = err.message || '';
+      
+      if (errMsg.includes('Quota exceeded') || errMsg.includes('quota') || errMsg.includes('429')) {
+        const match = errMsg.match(/Please retry in ([\d\.]+)s/i);
+        const delay = match ? ` Please try again in ${Math.round(parseFloat(match[1]))} seconds.` : ' Please wait a moment and try again.';
+        userFriendlyMessage = `**SYSTEM NOTICE**: Google AI API rate limit / quota exceeded.${delay}`;
+      } else if (errMsg.includes('API key') || errMsg.includes('API_KEY')) {
+        userFriendlyMessage = '**SYSTEM NOTICE**: Invalid API Key. Please verify the `VITE_GEMINI_API_KEY` configuration inside your root `.env` file.';
+      }
+      
       setLogs((prev) => [
         ...prev,
-        { type: 'ai', text: err.message || 'Something went wrong. Please try again.' }
+        { type: 'ai', text: userFriendlyMessage }
       ]);
     } finally {
       setLoading(false);
