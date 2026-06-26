@@ -26,44 +26,92 @@ export const siteData = {
     {
       id: 1,
       title: 'Xamine.ai Learning Platform',
+      headline: 'AI that adapts to every learner\'s cognitive pace.',
+      eyebrow: 'EDTECH • COGNITIVE AI',
+      accentColor: '#00d2ff',
       description: 'Personalised AI Learning Platform for JEE/NEET preparation. Features real-time behavior analytics tracking focus, time-per-question, and exam-day metrics.',
       image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&h=500&fit=crop',
       tags: ['Next.js', 'React', 'TypeScript', 'AI Core'],
+      highlights: [
+        { label: 'Real-time analytics', value: 'Focus Tracking' },
+        { label: 'Response latency', value: '< 100ms' },
+        { label: 'Curriculum scale', value: 'JEE / NEET' }
+      ]
     },
     {
       id: 2,
       title: 'Kaksha Digital Classroom',
+      headline: 'The digital blackboard, supercharged by AI.',
+      eyebrow: 'VIRTUAL CLASSROOM • REAL-TIME',
+      accentColor: '#00ff87',
       description: 'AI-Powered Personalised Digital Classroom featuring interactive whiteboard video lectures, real-time interruptions/Q&A flow, and assignment playgrounds.',
       image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop',
       tags: ['React', 'WebSocket', 'Tailwind', 'AI Video'],
+      highlights: [
+        { label: 'Whiteboard engine', value: 'Interactive' },
+        { label: 'Engagement flow', value: 'Instant Q&A' },
+        { label: 'Synced data channel', value: 'WebSocket' }
+      ]
     },
     {
       id: 3,
       title: 'MPL Desktop Poker',
+      headline: 'Ultra-low latency desktop gaming at scale.',
+      eyebrow: 'DESKTOP ENGINE • ELECTRON',
+      accentColor: '#ff007f',
       description: 'Multi-window Desktop Poker Electron application supporting 20+ tables concurrently. Built with a unified RTK WebSocket data layer and GPU optimization.',
       image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop',
       tags: ['Electron', 'Next.js', 'Redux Toolkit', 'WebSockets'],
+      highlights: [
+        { label: 'Concurrent gameplay', value: '20+ Tables' },
+        { label: 'GPU optimization', value: '40% Less CPU' },
+        { label: 'State updates', value: '< 100ms Sync' }
+      ]
     },
     {
       id: 4,
       title: 'Bountyverse Game SDK',
+      headline: 'Seamless tournament rewards for any game.',
+      eyebrow: 'JS SDK • GAMING INFRASTRUCTURE',
+      accentColor: '#ffaa00',
       description: 'High-performance JavaScript SDK and Admin Dashboard enabling rewards, leaderboards, and anti-cheat scoring across 15+ game integrations.',
       image: 'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=500&fit=crop',
       tags: ['JS SDK', 'React', 'Material UI', 'Storybook'],
+      highlights: [
+        { label: 'Live integrations', value: '15+ Games' },
+        { label: 'Partner onboarding', value: '4 Days' },
+        { label: 'Scoring engine', value: 'Anti-Cheat' }
+      ]
     },
     {
       id: 5,
       title: 'Samsung Knox SDP',
+      headline: 'Military-grade data protection in your pocket.',
+      eyebrow: 'SYSTEM SECURITY • ANDROID OS',
+      accentColor: '#7f00ff',
       description: 'Sensitive Data Protection secure folder encryption feature shipped across flagship Samsung devices globally using Android system APIs.',
       image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=500&fit=crop',
       tags: ['C/C++', 'Android SDK', 'Knox TEE', 'Security'],
+      highlights: [
+        { label: 'Devices globally', value: 'Flagship Scale' },
+        { label: 'Secure hardware', value: 'TEE Protected' },
+        { label: 'System levels', value: 'Android API' }
+      ]
     },
     {
       id: 6,
       title: 'Samsung Knox Dual DAR',
+      headline: 'Double-layered filesystem encryption.',
+      eyebrow: 'FILESYSTEM • ENTERPRISE KERNEL',
+      accentColor: '#3d5afe',
       description: 'Filesystem-level dual layer encryption implementation (fscrypt / Keymaster) for enterprise and government high-security deployments.',
       image: 'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=500&fit=crop',
       tags: ['fscrypt', 'Keymaster', 'Kernel Systems', 'Security'],
+      highlights: [
+        { label: 'DAR security', value: 'Dual Layer' },
+        { label: 'Kernel level', value: 'fscrypt Engine' },
+        { label: 'Deployments', value: 'Govt Grade' }
+      ]
     },
   ],
 

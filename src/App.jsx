@@ -80,7 +80,7 @@ export default function App() {
               {/* Page content using React Router */}
               <Routes>
                 <Route path="/" element={<HomePage onNavigate={navigateTo} />} />
-                <Route path="/projects" element={<ProjectsPage />} />
+                <Route path="/projects" element={<ProjectsPage onNavigate={navigateTo} />} />
                 <Route path="/experience" element={<ExperiencePage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
