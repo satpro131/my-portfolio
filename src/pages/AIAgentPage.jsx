@@ -1,69 +1,60 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { buildContext } from '../lib/contextBuilder';
+import { sendMessage } from '../lib/geminiChat';
 
-const SYSTEM_LOGS = `Connecting to Satya Prakash Profile Core...
-Mapping database index: SECURE_KNOX_SDP... OK
-Mapping database index: WEBGL_FLUID_ENGINE... OK
-Mapping database index: NEXTJS_MICRO_FRONTENDS... OK
-Ready. Type your query or choose a shortcut command below.`;
+const SYSTEM_LOGS_INIT = `Connecting to Satya Prakash Profile Core...
+Loading Context Database (Resume PDF, LinkedIn Profile)...
+Please wait a moment...`;
 
-const COMMAND_RESPONSES = {
-  '/help': `Available commands:
+const HELP_RESPONSE = `Available commands:
   /projects     - Learn about systems Satya built (MPL, Knox, Xamine)
   /experience   - View Satya's work history timeline
   /skills       - Output technical stack and core competencies
   /education    - View academic qualifications and university details
   /certs        - View professional certifications
   /publications - View research work and publication records
-  /knox         - Detailed security engineering at Samsung Knox
-  /xamine       - Detailed founder overview of Xamine.ai EdTech
-  /clear        - Clear terminal logs`,
-  '/projects': `PROJECT OVERVIEW:
-1. Xamine.ai & Kaksha: Personalised AI Learning Platforms built from scratch using React, Next.js, and TypeScript, featuring real-time biometric student behavior tracking.
-2. MPL Desktop Poker client: High-performance multi-window Electron + Next.js desktop client with GPU offloading and WebSocket synchronization.
-3. Bountyverse SDK: Modular game reward JavaScript SDK integrated across 15+ game titles at Cloudfeather Games.
-4. Samsung Knox Security: Defense-grade Sensitive Data Protection (SDP) & Dual DAR file-system level encryption shipped globally on Samsung flagship devices.`,
-  '/experience': `PROFESSIONAL SUMMARY:
-- Founder & Lead Frontend Engineer | Xamine.ai (2025 - Present)
-- Senior Frontend Engineer | MPL (Mobile Premier League) (2024 - 2025)
-- Founding Lead Frontend Engineer | Cloudfeather Games (2022 - 2024)
-- Lead Systems Engineer | Samsung R&D Institute (2017 - 2022)
-- IIT (BHU) Varanasi CSE Graduate.`,
-  '/skills': `CORE TECHNICAL STACK:
-Languages: TypeScript (Expert), JavaScript (ES2023+), HTML5, CSS3, C/C++
-Cyber Systems: Knox SDP, Dual DAR (fscrypt / Keymaster), SELinux Policies`,
-  '/education': `EDUCATION:
-- B.Tech in Computer Science and Engineering
-  IIT (BHU) Varanasi (2013 - 2017)
-  Focus areas: Algorithms, systems engineering, cryptography, and network security.`,
-  '/certs': `CERTIFICATIONS:
-1. Samsung Advanced Cryptography Certification (Samsung R&D Institute, 2019)
-2. Certified Secure Software Lifecycle Professional (CSSLP) Prep (Samsung Security Center, 2021)`,
-  '/publications': `PUBLICATIONS:
-- "Securing File System-level Cryptography in Enterprise Android Devices"
-  Samsung Technical Conference & R&D Journal (2020)
-  Overview: Discussed the integration of SDP (Sensitive Data Protection) with fscrypt drivers and hardware-backed Keymaster layers.`,
-  '/knox': `SAMSUNG KNOX SECURITY:
-Lead Engineer (Samsung R&D Institute, 2017 - 2022).
-Key Achievements:
-• Sensitive Data Protection (SDP): Led a team of 4 engineers to implement Samsung Knox SDP — secure folder encryption feature shipped across all Samsung devices — using C/C++ and Android system APIs
-• Dual Data-at-Rest (Dual DAR): Implemented Dual DAR encryption at the file system level (fscrypt / Keymaster) exclusively for flagship Samsung devices, adding a second encryption layer to meet enterprise and government security mandates
-• Cross-device porting: Ported Dual DAR and SDP implementation code across multiple flagship device variants, ensuring compatibility across OS versions and device-specific kernel differences
-• Enterprise Partition Manager migration: Ported the Knox Enterprise Partition Manager from legacy ext4 to fscrypt, enabling per-file/per-directory encryption and hardware-backed key management`,
-  '/xamine': `XAMINE.AI & KAKSHA:
-Founder. Designed and built two live AI JEE/NEET prep platforms. Kaksha provides custom whiteboard video lectures with dynamic teacher interruption, while Xamine tracks real-time exam indicators (guesswork, stress, distraction) to construct concept gap diagnostics.`,
-};
+  /clear        - Clear terminal logs`;
 
 export default function AIAgentPage() {
   const [logs, setLogs] = useState([
-    { type: 'system', text: SYSTEM_LOGS }
+    { type: 'system', text: SYSTEM_LOGS_INIT }
   ]);
   const [inputValue, setInputValue] = useState('');
-  const [cpuUsage, setCpuUsage] = useState(24);
-  const [memUsage, setMemUsage] = useState(48);
+  const [contextReady, setContextReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const contextRef = useRef(null);
   const bodyRef = useRef(null);
   const location = useLocation();
   const initialQueryExecuted = useRef(false);
+
+  // Build Context on Mount
+  useEffect(() => {
+    buildContext()
+      .then((ctx) => {
+        contextRef.current = ctx;
+        setContextReady(true);
+        setLogs((prev) => [
+          ...prev,
+          {
+            type: 'system',
+            text: 'System Online. Context Database loaded successfully.\nType your query or choose a shortcut command below. Type /help for available shortcuts.'
+          }
+        ]);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLogs((prev) => [
+          ...prev,
+          {
+            type: 'system',
+            text: 'WARNING: Failed to load complete context database (Resume or LinkedIn files). Gemini answers will rely on available page content.'
+          }
+        ]);
+        setContextReady(true);
+      });
+  }, []);
 
   useEffect(() => {
     // Scroll to bottom of terminal whenever logs change
@@ -72,130 +63,98 @@ export default function AIAgentPage() {
     }
   }, [logs]);
 
-  // Simulate CPU/Memory variations
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCpuUsage(Math.floor(20 + Math.random() * 15));
-      setMemUsage(Math.floor(45 + Math.random() * 4));
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
+  const handleCommand = async (cmd) => {
+    const text = cmd.trim();
+    if (!text) return;
 
-  const handleCommand = useCallback((cmd) => {
-    const cleanCmd = cmd.trim().toLowerCase();
-    
-    setLogs((prevLogs) => {
-      const newLogs = [...prevLogs, { type: 'user', text: cmd }];
+    const cleanCmd = text.toLowerCase();
 
-      if (cleanCmd === '/clear') {
-        return [{ type: 'system', text: 'Terminal logs cleared.' }];
-      }
+    // Clear log handler
+    if (cleanCmd === '/clear') {
+      setLogs([{ type: 'system', text: 'Terminal logs cleared.' }]);
+      return;
+    }
 
-      // Lookup response
-      let responseText = `Command not found: '${cmd}'. Type /help to view available commands.`;
-      if (COMMAND_RESPONSES[cleanCmd]) {
-        responseText = COMMAND_RESPONSES[cleanCmd];
-      } else {
-        // Basic natural language fallback matching
-        if (cleanCmd.includes('project') || cleanCmd.includes('work') || cleanCmd.includes('portfolio')) {
-          responseText = COMMAND_RESPONSES['/projects'];
-        } else if (cleanCmd.includes('experience') || cleanCmd.includes('history') || cleanCmd.includes('jobs')) {
-          responseText = COMMAND_RESPONSES['/experience'];
-        } else if (cleanCmd.includes('skill') || cleanCmd.includes('tech') || cleanCmd.includes('code') || cleanCmd.includes('stack')) {
-          responseText = COMMAND_RESPONSES['/skills'];
-        } else if (cleanCmd.includes('education') || cleanCmd.includes('degree') || cleanCmd.includes('college') || cleanCmd.includes('university') || cleanCmd.includes('iit') || cleanCmd.includes('bhu')) {
-          responseText = COMMAND_RESPONSES['/education'];
-        } else if (cleanCmd.includes('cert') || cleanCmd.includes('credentials')) {
-          responseText = COMMAND_RESPONSES['/certs'];
-        } else if (cleanCmd.includes('publication') || cleanCmd.includes('paper') || cleanCmd.includes('journal') || cleanCmd.includes('write')) {
-          responseText = COMMAND_RESPONSES['/publications'];
-        } else if (cleanCmd.includes('knox') || cleanCmd.includes('samsung') || cleanCmd.includes('security')) {
-          responseText = COMMAND_RESPONSES['/knox'];
-        } else if (cleanCmd.includes('xamine') || cleanCmd.includes('kaksha') || cleanCmd.includes('ai')) {
-          responseText = COMMAND_RESPONSES['/xamine'];
+    setLogs((prev) => [...prev, { type: 'user', text }]);
+
+    // /help command handler
+    if (cleanCmd === '/help') {
+      setLogs((prev) => [...prev, { type: 'ai', text: HELP_RESPONSE }]);
+      return;
+    }
+
+    if (!contextReady) {
+      setLogs((prev) => [
+        ...prev,
+        { type: 'system', text: 'System is initializing database. Please wait...' }
+      ]);
+      return;
+    }
+
+    // Check if API key is configured
+    const key = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!key || key === 'your_gemini_key_here') {
+      setLogs((prev) => [
+        ...prev,
+        {
+          type: 'ai',
+          text: 'WARNING: Gemini API Key (`VITE_GEMINI_API_KEY`) is not configured. Please create a `.env` file at the root of the project with a valid Gemini API Key from Google AI Studio.'
         }
+      ]);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Map shortcut commands to normal conversational queries for Gemini
+      let queryText = text;
+      if (cleanCmd === '/projects') {
+        queryText = 'List and summarize all of Satya Prakash\'s projects.';
+      } else if (cleanCmd === '/experience') {
+        queryText = 'Summarize Satya Prakash\'s professional experience timeline.';
+      } else if (cleanCmd === '/skills') {
+        queryText = 'What are Satya Prakash\'s core technical stack and skills?';
+      } else if (cleanCmd === '/education') {
+        queryText = 'Where did Satya Prakash go to college and what did he study?';
+      } else if (cleanCmd === '/certs') {
+        queryText = 'What professional certifications does Satya Prakash hold?';
+      } else if (cleanCmd === '/publications') {
+        queryText = 'What papers or publications has Satya Prakash written?';
       }
 
-      return [...newLogs, { type: 'ai', text: responseText }];
-    });
-  }, []);
+      const reply = await sendMessage(queryText, contextRef.current);
+      setLogs((prev) => [...prev, { type: 'ai', text: reply }]);
+    } catch (err) {
+      console.error(err);
+      setLogs((prev) => [
+        ...prev,
+        { type: 'ai', text: err.message || 'Something went wrong. Please try again.' }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (location.state?.initialQuery && !initialQueryExecuted.current) {
       initialQueryExecuted.current = true;
       handleCommand(location.state.initialQuery);
     }
-  }, [location.state, handleCommand]);
+  }, [location.state]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || loading) return;
     handleCommand(inputValue);
     setInputValue('');
-  };
-
-  const handleShortcutClick = (cmd) => {
-    handleCommand(cmd);
   };
 
   return (
     <div className="page-content">
       <div className="ai-agent-page">
-        {/* Left Side: Stats/Diagnostics Sidebar */}
-        <aside className="ai-sidebar">
-          <div className="ai-sidebar-group">
-            <h3 className="ai-sidebar-title">SYSTEM STATUS</h3>
-            <div className="ai-stat-group" style={{ marginTop: '14px' }}>
-              <div className="ai-stat-row">
-                <span>DATABASE STATUS</span>
-                <span className="ai-stat-value">ONLINE</span>
-              </div>
-              <div className="ai-stat-row">
-                <span>AI MODEL CORE</span>
-                <span className="ai-stat-value">READY</span>
-              </div>
-              <div className="ai-stat-row">
-                <span>CPU CORE LOAD</span>
-                <span className="ai-stat-value">{cpuUsage}%</span>
-              </div>
-              <div className="ai-stat-row">
-                <span>MEMORY ALLOC</span>
-                <span className="ai-stat-value">{memUsage}%</span>
-              </div>
-              <div className="ai-stat-row">
-                <span>LATENCY</span>
-                <span className="ai-stat-value">~38ms</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="ai-sidebar-group">
-            <h3 className="ai-sidebar-title">QUICK COMMANDS</h3>
-            <div className="ai-prompt-shortcuts" style={{ marginTop: '14px' }}>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/projects')}>
-                /projects
-              </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/experience')}>
-                /experience
-              </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/skills')}>
-                /skills
-              </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/education')}>
-                /education
-              </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/certs')}>
-                /certs
-              </button>
-              <button className="ai-shortcut-btn" onClick={() => handleShortcutClick('/publications')}>
-                /publications
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        {/* Right Side: Terminal Window Panel */}
-        <div className="terminal-panel">
+        {/* Full Width Terminal Window Panel */}
+        <div className="terminal-panel full-width">
           <header className="terminal-header">
             <div className="terminal-dots">
               <span className="terminal-dot-indicator" />
@@ -214,10 +173,17 @@ export default function AIAgentPage() {
                 ) : log.type === 'system' ? (
                   <span className="terminal-system-output">{log.text}</span>
                 ) : (
-                  <span className="terminal-ai-output">{log.text}</span>
+                  <span className="terminal-ai-output">
+                    <ReactMarkdown>{log.text}</ReactMarkdown>
+                  </span>
                 )}
               </div>
             ))}
+            {loading && (
+              <div className="terminal-log-row">
+                <span className="terminal-system-output blink">THINKING...</span>
+              </div>
+            )}
           </div>
 
           <form className="terminal-prompt-line" onSubmit={handleSubmit}>
@@ -227,8 +193,9 @@ export default function AIAgentPage() {
               className="terminal-input-field"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask me anything about Satya, or type /help..."
+              placeholder={contextReady ? "Ask about my experience, or type /help..." : "Initializing database..."}
               autoFocus
+              disabled={!contextReady || loading}
             />
           </form>
         </div>
