@@ -24,6 +24,12 @@ export default function AIAgentPage() {
   const [inputValue, setInputValue] = useState('');
   const [contextReady, setContextReady] = useState(false);
   const [loading, setLoading] = useState(false);
+  
+  // Custom API key fallback states
+  const [userApiKey, setUserApiKey] = useState(null);
+  const [awaitingKeyChoice, setAwaitingKeyChoice] = useState(false);
+  const [awaitingApiKeyInput, setAwaitingApiKeyInput] = useState(false);
+
   const contextRef = useRef(null);
   const bodyRef = useRef(null);
   const location = useLocation();
@@ -69,9 +75,74 @@ export default function AIAgentPage() {
 
     const cleanCmd = text.toLowerCase();
 
-    // Clear log handler
+    // Clear log handler (always available)
     if (cleanCmd === '/clear') {
       setLogs([{ type: 'system', text: 'Terminal logs cleared.' }]);
+      return;
+    }
+
+    // Intercept if waiting for User API Key choice (Y/N)
+    if (awaitingKeyChoice) {
+      setLogs((prev) => [...prev, { type: 'user', text }]);
+      if (cleanCmd === 'y' || cleanCmd === 'yes') {
+        setAwaitingKeyChoice(false);
+        setAwaitingApiKeyInput(true);
+        setLogs((prev) => [
+          ...prev,
+          {
+            type: 'system',
+            text: 'Please paste your Gemini API key (starts with AIzaSy...):'
+          }
+        ]);
+      } else {
+        setAwaitingKeyChoice(false);
+        setLogs((prev) => [
+          ...prev,
+          {
+            type: 'system',
+            text: 'Understood. Proceeding with system credentials. You can query again or retry later.'
+          }
+        ]);
+      }
+      return;
+    }
+
+    // Intercept if waiting for API Key input
+    if (awaitingApiKeyInput) {
+      if (cleanCmd === 'n' || cleanCmd === 'no') {
+        setAwaitingApiKeyInput(false);
+        setLogs((prev) => [
+          ...prev,
+          { type: 'user', text },
+          { type: 'system', text: 'API Key registration cancelled. Continuing with system key.' }
+        ]);
+        return;
+      }
+
+      // Basic length and prefix validation for Gemini key
+      if (text.startsWith('AIzaSy') && text.length > 20) {
+        setUserApiKey(text);
+        setAwaitingApiKeyInput(false);
+        // Mask the key when printing user input
+        const masked = `${text.substring(0, 6)}****************${text.substring(text.length - 4)}`;
+        setLogs((prev) => [
+          ...prev,
+          { type: 'user', text: masked },
+          {
+            type: 'system',
+            text: 'API Key registered successfully for this session. You can now continue chatting!'
+          }
+        ]);
+      } else {
+        setLogs((prev) => [
+          ...prev,
+          { type: 'user', text: '*********' },
+          {
+            type: 'error',
+            text: 'Invalid key format. Please enter a valid Gemini API key (starts with AIzaSy) or type N to cancel:'
+          }
+        ]);
+      }
       return;
     }
 
@@ -91,16 +162,17 @@ export default function AIAgentPage() {
       return;
     }
 
-    // Check if API key is configured
-    const key = import.meta.env.VITE_GEMINI_API_KEY;
+    // Check if API key is configured (only if user hasn't provided custom key)
+    const key = userApiKey || import.meta.env.VITE_GEMINI_API_KEY;
     if (!key || key === 'your_gemini_key_here') {
       setLogs((prev) => [
         ...prev,
         {
-          type: 'ai',
-          text: 'WARNING: Gemini API Key (`VITE_GEMINI_API_KEY`) is not configured. Please create a `.env` file at the root of the project with a valid Gemini API Key from Google AI Studio.'
+          type: 'error',
+          text: 'WARNING: Gemini API Key is not configured. Please create a `.env` file at the root of the project with a valid key OR type Y to input your own key.'
         }
       ]);
+      setAwaitingKeyChoice(true);
       return;
     }
 
@@ -131,7 +203,7 @@ export default function AIAgentPage() {
           parts: [{ text: log.text }]
         }));
 
-      const reply = await sendMessage(queryText, contextRef.current, formattedHistory);
+      const reply = await sendMessage(queryText, contextRef.current, formattedHistory, key);
       setLogs((prev) => [...prev, { type: 'ai', text: reply }]);
     } catch (err) {
       console.error(err);
@@ -144,13 +216,18 @@ export default function AIAgentPage() {
         const delay = match ? ` Please try again in ${Math.round(parseFloat(match[1]))} seconds.` : ' Please wait a moment and try again.';
         userFriendlyMessage = `**SYSTEM NOTICE**: Google AI API rate limit / quota exceeded.${delay}`;
       } else if (errMsg.includes('API key') || errMsg.includes('API_KEY')) {
-        userFriendlyMessage = '**SYSTEM NOTICE**: Invalid API Key. Please verify the `VITE_GEMINI_API_KEY` configuration inside your root `.env` file.';
+        userFriendlyMessage = '**SYSTEM NOTICE**: Invalid API Key / Authentication failed.';
       }
       
       setLogs((prev) => [
         ...prev,
-        { type: 'error', text: userFriendlyMessage }
+        { type: 'error', text: userFriendlyMessage },
+        { 
+          type: 'system', 
+          text: '\nWould you like to proceed using your own Gemini API key? (Note: Your API key runs locally in your browser. It is not saved on any server and will be cleared when you reload) [Y/N]:' 
+        }
       ]);
+      setAwaitingKeyChoice(true);
     } finally {
       setLoading(false);
     }
