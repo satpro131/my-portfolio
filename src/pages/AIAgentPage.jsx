@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import { buildContext } from '../lib/contextBuilder';
 import { sendMessage } from '../lib/geminiChat';
@@ -33,6 +33,7 @@ export default function AIAgentPage() {
   const contextRef = useRef(null);
   const bodyRef = useRef(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const initialQueryExecuted = useRef(false);
 
   // Build Context on Mount
@@ -234,11 +235,14 @@ export default function AIAgentPage() {
   };
 
   useEffect(() => {
-    if (location.state?.initialQuery && !initialQueryExecuted.current) {
+    if (contextReady && location.state?.initialQuery && !initialQueryExecuted.current) {
       initialQueryExecuted.current = true;
       handleCommand(location.state.initialQuery);
+      
+      // Clear navigation state to prevent re-execution of query on page reload
+      navigate(location.pathname, { replace: true, state: {} });
     }
-  }, [location.state]);
+  }, [contextReady, location.state, navigate, location.pathname]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
