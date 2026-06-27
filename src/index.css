@@ -3353,6 +3353,7 @@ a {
   inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: #000;
   overflow: hidden;
   z-index: 10;
@@ -3657,13 +3658,50 @@ a {
 /* Mobile responsive adjustments */
 @media (max-width: 1024px) {
   .ai-agent-page {
-    padding: 100px 20px 60px;
+    padding: 100px 20px 50px;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
   }
   
   .terminal-panel {
+    height: auto;
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .crt-container {
+    padding: 0;
+  }
+  
+  .crt-bezel {
+    border-radius: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .crt-screen {
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .ai-agent-page {
+    padding: 70px 0 0; /* Leave room only for navbar */
     height: 100%;
+  }
+
+  .terminal-panel {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    height: 100% !important;
     flex-grow: 1;
   }
 }
